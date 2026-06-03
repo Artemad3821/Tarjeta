@@ -1,156 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Carlos Agulló – Cavas 18-70</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #1a1a18; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; font-family: "Manrope", sans-serif; }
-  .wrapper { width: 100%; max-width: 380px; display: flex; flex-direction: column; align-items: center; gap: 24px; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-  .lang-switcher { display: flex; gap: 8px; animation: fadeUp 0.6s ease both; }
-  .lang-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid #3a3028; background: transparent; color: #5a5048; font-family: "Manrope", sans-serif; font-size: 11px; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; }
-  .lang-btn.active { background: #C4825A; border-color: #C4825A; color: #F5F0EA; }
-  .card { width: 100%; height: 210px; position: relative; border-radius: 6px; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.3); }
-  .card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #7C5A46, #C4825A, #A79F82); z-index: 2; }
-  .card-front { background: #2a2420; display: flex; flex-direction: column; justify-content: space-between; padding: 22px 28px 22px; height: 100%; animation: fadeUp 0.8s ease both; }
-  .person-name { font-family: "Cormorant Garamond", serif; font-size: 17px; font-weight: 600; letter-spacing: 0.08em; color: #EFE9E1; }
-  .person-role { font-size: 7.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #C4825A; font-weight: 300; margin-top: 4px; }
-  .tagline { font-family: "Cormorant Garamond", serif; font-size: 9px; font-style: italic; letter-spacing: 0.15em; color: #5a5048; text-align: right; }
-  .card-back { background: #2a2420; display: flex; flex-direction: row; height: 100%; animation: fadeUp 0.8s 0.1s ease both; }
-  .back-left { flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 22px 20px 20px; }
-  .contact-block { display: flex; flex-direction: column; gap: 6px; }
-  .contact-item { display: flex; flex-direction: column; gap: 2px; }
-  .contact-label { font-size: 6.5px; letter-spacing: 0.15em; text-transform: uppercase; color: #7C5A46; font-weight: 400; }
-  .contact-value { font-size: 8px; letter-spacing: 0.02em; color: #EFE9E1; font-weight: 300; text-decoration: none; word-break: break-word; }
-  a.contact-value:active { color: #C4825A; }
-  .back-footer { font-family: "Cormorant Garamond", serif; font-size: 9px; font-style: italic; letter-spacing: 0.12em; color: #5a5048; }
-  .divider { width: 20px; height: 1px; background: linear-gradient(90deg, #C4825A, transparent); margin: 2px 0; }
-  .back-right { width: 90px; background: #1e1916; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border-left: 1px solid #3a3028; flex-shrink: 0; }
-  .back-right img { width: 64px; height: 64px; image-rendering: pixelated; }
-  .qr-label { font-size: 6px; letter-spacing: 0.15em; text-transform: uppercase; color: #5a5048; font-weight: 300; }
-  .actions { width: 100%; display: flex; flex-direction: column; gap: 12px; animation: fadeUp 0.8s 0.2s ease both; }
-  .btn { width: 100%; padding: 16px; border: none; border-radius: 6px; font-family: "Manrope", sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; transition: opacity 0.2s, transform 0.15s; }
-  .btn:hover { opacity: 0.9; transform: translateY(-1px); }
-  .btn:active { transform: translateY(0); opacity: 0.8; }
-  .btn-primary { background: linear-gradient(135deg, #7C5A46, #C4825A); color: #F5F0EA; box-shadow: 0 8px 24px rgba(196,130,90,0.25); }
-  .btn-secondary { background: #2a2420; color: #C4825A; border: 1px solid #3a3028; }
-  .btn-phone { background: #222220; color: #EFE9E1; border: 1px solid #2e2e2c; }
-  .btn-whatsapp { background: #1a2e1a; color: #4caf50; border: 1px solid #2a4a2a; }
-  .btn-dossier { background: #1e1916; color: #A79F82; border: 1px solid #3a3028; }
-  .footer { font-family: "Cormorant Garamond", serif; font-size: 11px; font-style: italic; letter-spacing: 0.12em; color: #3a3830; animation: fadeUp 0.8s 0.3s ease both; }
-  /* Keep brand logo & QR always LTR — never mirror in Arabic RTL */
-  .card-front svg, .back-left svg, .back-right, .back-right * { direction: ltr !important; }
-  .card-front, .card-back { direction: ltr; }
-  .contact-item { direction: ltr; }
-</style>
-</head>
-<body>
-<div class="wrapper">
+EN
+ES
+عر
+CAVAS
+18
+°C
+70
+%HR
+Carlos Agulló
+CEO
+Precision climate. Pure pleasure.
+CAVAS
+18
+70
+PHONE
++34 691 492 619
 
-  <div class="lang-switcher">
-    <button class="lang-btn active" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" onclick="setLang('es')">ES</button>
-    <button class="lang-btn" onclick="setLang('ar')">&#x639;&#x631;</button>
-  </div>
+EMAIL
+hola@cavas18-70.com
 
-  <div class="card">
-    <div class="card-front">
-      <img src="data:image/png;base64,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" width="160" height="64" style="object-fit:contain">
-      <div>
-        <div class="person-name">Carlos Agull&#xF3;</div>
-        <div class="person-role" id="role">CEO</div>
-      </div>
-      <div class="tagline" id="tagline">Precision climate. Pure pleasure.</div>
-    </div>
-  </div>
+WEB
+www.cavas18-70.com
+Precision climate. Pure pleasure.
+￼
+SCAN ME
 
-  <div class="card">
-    <div class="card-back">
-      <div class="back-left">
-        <img src="data:image/png;base64,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" width="100" height="40" style="object-fit:contain;opacity:0.55">
-        <div class="contact-block">
-          <div class="contact-item">
-            <div class="contact-label" id="lbl-phone">Phone</div>
-            <a class="contact-value" href="tel:+34691492619">+34 691 492 619</a>
-          </div>
-          <div class="divider"></div>
-          <div class="contact-item">
-            <div class="contact-label" id="lbl-email">Email</div>
-            <a class="contact-value" href="mailto:hola@cavas18-70.com">hola@cavas18-70.com</a>
-          </div>
-          <div class="divider"></div>
-          <div class="contact-item">
-            <div class="contact-label" id="lbl-web">Web</div>
-            <a class="contact-value" href="https://www.cavas18-70.com" target="_blank">www.cavas18-70.com</a>
-          </div>
-        </div>
-        <div class="back-footer" id="footer-tagline">Precision climate. Pure pleasure.</div>
-      </div>
-      <div class="back-right">
-        <img src="data:image/png;base64,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" alt="QR">
-        <div class="qr-label" id="scan-label">Scan me</div>
-      </div>
-    </div>
-  </div>
+ADD TO CONTACTS
 
-  <div class="actions">
-    <button class="btn btn-primary" id="btn-contacts" onclick="window.location.href='data:text/vcard;charset=utf-8,BEGIN%3AVCARD%0AVERSION%3A3.0%0AFN%3ACarlos%20Agull%C3%B3%0AN%3AAgull%C3%B3%3BCarlos%3B%3B%3B%0AORG%3ACavas%2018-70%0ATITLE%3ACEO%0ATEL%3BTYPE%3DCELL%3A%2B34691492619%0AEMAIL%3Ahola%40cavas18-70.com%0AURL%3Ahttps%3A%2F%2Fwww.cavas18-70.com%0AEND%3AVCARD'">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
-      <span id="btn-contacts-text">Add to Contacts</span>
-    </button>
-    <button class="btn btn-secondary" onclick="window.open('https://www.cavas18-70.com', '_blank')">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-      <span id="btn-web-text">Visit Website</span>
-    </button>
-    <button class="btn btn-dossier" id="btn-dossier" onclick="window.open('https://artemad3821.github.io/Cavas-dosier/cavasdosier-en.html', '_blank')">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-      <span id="btn-dossier-text">View Dossier</span>
-    </button>
-    <button class="btn btn-phone" onclick="window.location.href='tel:+34691492619'">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
-      <span id="btn-call-text">Call +34 691 492 619</span>
-    </button>
-    <button class="btn btn-whatsapp" onclick="window.open('https://wa.me/34691492619', '_blank')">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      <span id="btn-wa-text">WhatsApp</span>
-    </button>
-  </div>
+VISIT WEBSITE
 
-  <div class="footer" id="footer-bottom">Cavas 18&#xB7;70 &mdash; Spain</div>
-</div>
+DOWNLOAD DOSSIER
 
-<script>
-const T = {
-  en: { role:"CEO", tagline:"Precision climate. Pure pleasure.", lbl_phone:"Phone", lbl_email:"Email", lbl_web:"Web", scan:"Scan me", contacts:"Add to Contacts", web:"Visit Website", dossier:"View Dossier", dossier_url:"https://artemad3821.github.io/Cavas-dosier/cavasdosier-en.html", call:"Call +34 691 492 619", wa:"WhatsApp", footer:"Cavas 18·70 — Spain", dir:"ltr" },
-  es: { role:"CEO", tagline:"Clima de precisión. Placer puro.", lbl_phone:"Tel", lbl_email:"Email", lbl_web:"Web", scan:"Escanéame", contacts:"Añadir a Contactos", web:"Visitar Web", dossier:"Ver Dossier", dossier_url:"https://artemad3821.github.io/Cavas-dosier/cavasdosier-es.html", call:"Llamar +34 691 492 619", wa:"WhatsApp", footer:"Cavas 18·70 — España", dir:"ltr" },
-  ar: { role:"الرئيس التنفيذي", tagline:"مناخ دقيق. متعة خالصة.", lbl_phone:"هاتف", lbl_email:"البريد", lbl_web:"الموقع", scan:"امسحني", contacts:"إضافة إلى جهات الاتصال", web:"زيارة الموقع", dossier:"عرض الملف التعريفي", dossier_url:"https://artemad3821.github.io/Cavas-dosier/cavasdosier-ar.html", call:"+34 691 492 619 اتصل", wa:"واتساب", footer:"كافاس 18·70 — إسبانيا", dir:"rtl" }
-};
-function setLang(lang) {
-  const t = T[lang];
-  document.getElementById('role').textContent = t.role;
-  document.getElementById('tagline').textContent = t.tagline;
-  document.getElementById('footer-tagline').textContent = t.tagline;
-  document.getElementById('lbl-phone').textContent = t.lbl_phone;
-  document.getElementById('lbl-email').textContent = t.lbl_email;
-  document.getElementById('lbl-web').textContent = t.lbl_web;
-  document.getElementById('scan-label').textContent = t.scan;
-  document.getElementById('btn-contacts-text').textContent = t.contacts;
-  document.getElementById('btn-web-text').textContent = t.web;
-  document.getElementById('btn-dossier-text').textContent = t.dossier;
-  if (!document._langInit) { document._langInit = true; setLang('en'); }
-window.onload = function() { setLang('en'); };
-  document.getElementById('btn-call-text').textContent = t.call;
-  document.getElementById('btn-wa-text').textContent = t.wa;
-  document.getElementById('footer-bottom').textContent = t.footer;
-  document.getElementById('btn-dossier').setAttribute('onclick', "window.open('" + t.dossier_url + "', '_blank')");
-  document.documentElement.dir = t.dir;
-  document.querySelectorAll('.lang-btn').forEach(b => {
-    b.classList.toggle('active', b.getAttribute('onclick').includes("'" + lang + "'"));
-  });
-}
-</script>
-</body>
-</html>
+CALL +34 691 492 619
+
+WHATSAPP
+
+EMAIL
+Cavas 18·70 — Spain
